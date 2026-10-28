@@ -1,0 +1,66 @@
+{
+ "city": "tashkent",
+ "source": "OpenStreetMap POIs (ODbL); points are WGS84 [lat, lon]",
+ "demos": [
+  {
+   "key": "single",
+   "name": "Скорая: Подстанция скорой и неотложной медицинской помощи № 9 → 8-son tug‘uruqxona",
+   "warmupS": 300,
+   "evs": [
+    {
+     "id": "СКОРАЯ-1",
+     "type": "ambulance",
+     "urgency": 3,
+     "from": [
+      41.277141,
+      69.223815
+     ],
+     "to": [
+      41.280068,
+      69.267544
+     ],
+     "fromName": "Подстанция скорой и неотложной медицинской помощи № 9 (OSM)",
+     "toName": "8-son tug‘uruqxona (OSM)"
+    }
+   ]
+  },
+  {
+   "key": "two",
+   "name": "Два спецавтомобиля с пересекающимися маршрутами",
+   "warmupS": 300,
+   "note": "routes meet at signalised junction sim node 1416 (41.274023, 69.240951) from conflicting approaches; found by scripts/find-conflict-city.ts",
+   "evs": [
+    {
+     "id": "СКОРАЯ-1",
+     "type": "ambulance",
+     "urgency": 3,
+     "from": [
+      41.277141,
+      69.223815
+     ],
+     "to": [
+      41.280068,
+      69.267544
+     ],
+     "fromName": "Подстанция скорой и неотложной медицинской помощи № 9 (OSM)",
+     "toName": "8-son tug‘uruqxona (OSM)"
+    },
+    {
+     "id": "ПОЖАРНАЯ-1",
+     "type": "fire",
+     "urgency": 2,
+     "from": [
+      41.291833,
+      69.248987
+     ],
+     "to": [
+      41.27641,
+      69.243823
+     ],
+     "fromName": "Пожарная часть №4 (OSM)",
+     "toName": "условный адрес вызова"
+    }
+   ]
+  }
+ ]
+}
