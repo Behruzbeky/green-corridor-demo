@@ -1,0 +1,4 @@
+[
+  { "id": "fergana", "name": "Фергана", "network": "data/fergana-network.json", "city3d": "data/fergana-3d.json", "demos": null },
+  { "id": "tashkent", "name": "Ташкент", "network": "data/tashkent-network.json", "city3d": "data/tashkent-3d.json", "demos": "data/tashkent-demos.json" }
+]
