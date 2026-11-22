@@ -3,6 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<script>
+try { document.documentElement.dataset.theme = localStorage.getItem('gc-theme') === 'dark' ? 'dark' : 'light'; } catch {}
+</script>
 <title>Зелёный коридор</title>
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <meta name="description" content="Система приоритета для скорой и пожарных на светофорах. Модель на реальной дорожной сети Ферганы и Ташкента.">
@@ -208,7 +211,7 @@ footer .wrap { display: flex; justify-content: space-between; gap: 20px; flex-wr
 .reveal { opacity: 1; transform: none; transition: opacity .6s, transform .6s; }
 .js .reveal.pre { opacity: 0; transform: translateY(18px); }
 
-@media (max-width: 1000px) {
+@media (max-width: 1100px) {
   .top .wrap { gap: 12px; }
   .menu-btn { display: grid; }
   .lang { margin-left: auto; }
@@ -216,6 +219,8 @@ footer .wrap { display: flex; justify-content: space-between; gap: 20px; flex-wr
   nav.links a { padding: 16px max(20px, env(safe-area-inset-left)); border-top: 1px solid var(--line); color: var(--ink); font-size: 14px; }
   .menu-open nav.links { display: flex; }
   nav.links + .lang { margin-left: auto; }
+}
+@media (max-width: 1000px) {
   .hero-grid, .sec-head, .res, .shots { grid-template-columns: minmax(0,1fr); }
   .cards { grid-template-columns: repeat(2, 1fr); }
   .steps { grid-template-columns: minmax(0,1fr); }
@@ -251,11 +256,19 @@ footer .wrap { display: flex; justify-content: space-between; gap: 20px; flex-wr
       <a href="#problem" data-i="n1">Проблема</a><a href="#now" data-i="n2">Почему сейчас</a><a href="#how" data-i="n3">Как работает</a><a href="#results" data-i="n4">Результаты</a><a href="#deploy" data-i="n6">Внедрение</a><a href="#pilot" data-i="n5">Пилот</a>
     </nav>
     <div class="lang" role="group" aria-label="Язык / Til / Language"><button data-l="ru">RU</button><button data-l="uz">UZ</button><button data-l="en">EN</button></div>
+    <button class="theme-toggle" type="button" aria-label="Тёмная тема" aria-pressed="false">
+      <svg class="moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 15.5A8.5 8.5 0 0 1 8.5 4 8.5 8.5 0 1 0 20 15.5Z"/></svg>
+      <svg class="sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v3m0 14v3M2 12h3m14 0h3M5 5l2 2m10 10 2 2M5 19l2-2M17 7l2-2"/></svg>
+    </button>
     <a class="btn go" href="app/" target="_blank" rel="noopener" data-i="cta">Демо<span> онлайн</span> ↗</a>
   </div>
 </header>
 <main id="top">
 <section class="hero">
+  <div class="background-traffic" aria-hidden="true">
+    <div class="background-lane"><span></span><span></span></div>
+    <div class="background-lane"><span></span><span></span></div>
+  </div>
   <div class="wrap">
     <div class="hero-grid">
       <div class="reveal">
@@ -324,19 +337,19 @@ footer .wrap { display: flex; justify-content: space-between; gap: 20px; flex-wr
     </div>
     <div class="map-steps">
       <article>
-        <div class="map-panel" data-map="step" data-phase="request"><img src="media/map-step.webp" width="900" height="720" loading="lazy" alt=""></div>
-        <h3 data-i="map_step1">Маршрут вызова</h3>
-        <p data-i="map_desc1">Диспетчер отмечает адрес на карте.</p>
+        <div class="map-panel explain-shot" data-map="step" data-stage="plan"><img src="media/map-step.webp" width="900" height="720" loading="lazy" alt=""></div>
+        <h3 data-i="map_step1">Система строит маршрут</h3>
+        <p data-i="map_desc1">По координатам скорой и адресу вызова система прокладывает маршрут и рассчитывает время прибытия к каждому светофору.</p>
       </article>
       <article>
-        <div class="map-panel" data-map="step" data-phase="priority"><img src="media/map-step.webp" width="900" height="720" loading="lazy" alt=""></div>
-        <h3 data-i="map_step2">Зелёный на подъезде</h3>
-        <p data-i="map_desc2">Светофор заранее освобождает полосу.</p>
+        <div class="map-panel explain-shot" data-map="step" data-stage="pass"><img src="media/map-step.webp" width="900" height="720" loading="lazy" alt=""></div>
+        <h3 data-i="map_step2">Скорая проезжает на зелёный</h3>
+        <p data-i="map_desc2">Светофор заранее даёт зелёный по маршруту. Очередь успевает уехать, и скорая проходит перекрёсток по свободной полосе.</p>
       </article>
       <article>
-        <div class="map-panel" data-map="step" data-phase="recovery"><img src="media/map-step.webp" width="900" height="720" loading="lazy" alt=""></div>
-        <h3 data-i="map_step3">После проезда</h3>
-        <p data-i="map_desc3">Перекрёсток возвращается к обычному циклу.</p>
+        <div class="map-panel explain-shot" data-map="step" data-stage="return"><img src="media/map-step.webp" width="900" height="720" loading="lazy" alt=""></div>
+        <h3 data-i="map_step3">Боковые улицы снова едут</h3>
+        <p data-i="map_desc3">Когда скорая покидает перекрёсток, приоритет снимается. После безопасной смены фазы зелёный получает поперечная улица.</p>
       </article>
     </div>
     <div class="steps">
@@ -365,13 +378,13 @@ footer .wrap { display: flex; justify-content: space-between; gap: 20px; flex-wr
       <p class="lead muted" data-i="d_lead">3D-карта, панель выезда и карточка каждого перекрёстка. Работает в браузере на ноутбуке и телефоне, в том числе без интернета.</p>
     </div>
     <div class="shots">
-      <figure class="shot reveal" style="margin:0"><img src="media/1440x900-03-priority.jpg" alt="Панель выезда: время до прибытия, перекрёстки по маршруту, приоритет на карте" width="1440" height="900" loading="lazy"><figcaption data-i="f1">Фергана · выезд скорой, приоритет включён</figcaption></figure>
+      <figure class="shot reveal" style="margin:0"><img src="media/demo-current-fergana.png" alt="Панель выезда: время до прибытия, перекрёстки по маршруту, приоритет на карте" width="1440" height="900" loading="lazy"><figcaption data-i="f1">Фергана · выезд скорой, приоритет включён</figcaption></figure>
       <div class="stack">
-        <figure class="shot reveal" style="margin:0"><img src="media/1440x900-04-junction.jpg" alt="Карточка перекрёстка: сигналы по подходам и разрешённые манёвры" width="1440" height="900" loading="lazy"><figcaption data-i="f2">Карточка перекрёстка: сигнал по каждому подходу</figcaption></figure>
-        <figure class="shot reveal" style="margin:0"><img src="media/tashkent-two-enroute.jpg" alt="Карта Ташкента: маршрут и статусы перекрёстков" width="1440" height="900" loading="lazy"><figcaption data-i="f3">Ташкент · центр города</figcaption></figure>
+        <figure class="shot reveal" style="margin:0"><img src="media/demo-current-junction.png" alt="Карточка перекрёстка: сигналы по подходам и разрешённые манёвры" width="1440" height="900" loading="lazy"><figcaption data-i="f2">Карточка перекрёстка: сигнал по каждому подходу</figcaption></figure>
+        <figure class="shot reveal" style="margin:0"><img src="media/demo-current-tashkent.png" alt="Карта Ташкента: маршрут и статусы перекрёстков" width="1440" height="900" loading="lazy"><figcaption data-i="f3">Ташкент · центр города</figcaption></figure>
       </div>
     </div>
-    <div class="video reveal"><video src="media/demo.mp4" poster="media/poster.jpg" width="1440" height="900" controls preload="none" playsinline aria-label="Видео-демонстрация, 3 минуты"></video></div>
+    <div class="video reveal"><video src="media/demo.mp4" poster="media/demo-current-fergana.png" width="1440" height="900" controls preload="none" playsinline aria-label="Видео-демонстрация, 3 минуты"></video></div>
     <div class="feat reveal">
       <div><b data-i="g1h">Честные данные на экране</b><span data-i="g1p">Светофор из OpenStreetMap, добавленный вручную и предполагаемый моделью обозначены по-разному.</span></div>
       <div><b data-i="g2h">Каждое решение объяснено</b><span data-i="g2p">Журнал с причинами, выгрузка в CSV и JSON, повтор сценария с проверкой совпадения.</span></div>
@@ -508,7 +521,7 @@ function setLang(l) {
   const d = l === 'ru' ? RU : (window.I18N || {})[l];
   if (!d) return;
   nodes.forEach((n) => { const v = d[n.dataset.i]; if (v != null) n.innerHTML = v; else console.warn('i18n missing', l, n.dataset.i); });
-  document.title = d._title; document.documentElement.lang = l; curLang = l; syncMenu();
+  document.title = d._title; document.documentElement.lang = l; curLang = l; syncMenu(); syncTheme();
   document.querySelectorAll('.lang button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.l === l)));
   // the demo opens in the same language (app reads ?lang=)
   document.querySelectorAll('a[href^="app/"]').forEach((a) => { const h = a.getAttribute('href').replace(/\?lang=\w+/, ''); a.setAttribute('href', h.replace(/^app\/(#.*)?$/, (_, hash) => `app/?lang=${l}${hash || ''}`)); });
@@ -528,10 +541,24 @@ menuBtn.addEventListener('click', () => setMenu(!hdr.classList.contains('menu-op
 hdr.querySelectorAll('nav.links a').forEach((a) => a.addEventListener('click', () => setMenu(false)));
 document.addEventListener('click', (e) => { if (!hdr.contains(e.target)) setMenu(false); });
 addEventListener('keydown', (e) => { if (e.key === 'Escape' && hdr.classList.contains('menu-open')) { setMenu(false); menuBtn.focus(); } });
-matchMedia('(min-width: 1001px)').addEventListener('change', (m) => { if (m.matches) setMenu(false); });
-setLang(lang0);
+matchMedia('(min-width: 1101px)').addEventListener('change', (m) => { if (m.matches) setMenu(false); });
+const themeButton = document.querySelector('.theme-toggle');
+const themeNames = { ru: 'Тёмная тема', uz: 'Qorong‘i mavzu', en: 'Dark theme' };
+function syncTheme() {
+  themeButton.setAttribute('aria-pressed', String(document.documentElement.dataset.theme === 'dark'));
+  themeButton.setAttribute('aria-label', themeNames[curLang]);
+  themeButton.title = themeNames[curLang];
+}
+themeButton.addEventListener('click', () => {
+  const root = document.documentElement;
+  root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+  try { localStorage.setItem('gc-theme', root.dataset.theme); } catch {}
+  syncTheme();
+});
+setLang(['ru', 'uz', 'en'].includes(lang0) ? lang0 : 'ru');
 
 </script>
 <script src="maps.js" defer></script>
+<script src="motion.js" defer></script>
 </body>
 </html>
